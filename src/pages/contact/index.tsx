@@ -1,88 +1,88 @@
-import ContentHeader from "@/src/components/common/ContentHeader";
-import CustomSnackbar from "@/src/components/common/CustomSnackBar";
-import { useSnackbar } from "@/src/hooks/useSnackBar";
-import { Box, Button, Paper, TextField } from "@mui/material";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { TextField, Button, Box, Typography, Paper } from "@mui/material";
+import { useSnackbar } from "../../hooks/useSnackBar";
+import CustomSnackbar from "../../components/common/CustomSnackBar";
+import ContentHeader from "../../components/common/ContentHeader";
 
 type FormValues = {
   name: string;
   email: string;
   body: string;
-}
+};
 
 const ContactForm: React.FC = () => {
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormValues>();
 
-    const {
-      openSnackbar,
-      snackbarMessage,
-      snackbarSeverity,
-      resetSnackbar,
-      setSnackbar,
-    } = useSnackbar();
+  const {
+    openSnackbar,
+    snackbarMessage,
+    snackbarSeverity,
+    resetSnackbar,
+    setSnackbar,
+  } = useSnackbar();
 
-    const onSubmit: SubmitHandler<FormValues> = async (data) => {
-      try {
-        const baseUrl: string = `https://${
-          process.env.NEXT_PUBLIC_SERVICE_DOMAIN || ""
-        }.microcms.io/api/v1`;
-        const response = await fetch(`${baseUrl}/contacts`, {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-            "X-API-KEY": process.env.NEXT_PUBLIC_API_KEY || "",
-          },
-          body: JSON.stringify(data),
-        });
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      const baseUrl: string = `https://${
+        process.env.NEXT_PUBLIC_SERVICE_DOMAIN || ""
+      }.microcms.io/api/v1`;
+      const response = await fetch(`${baseUrl}/contacts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": process.env.NEXT_PUBLIC_API_KEY || "",
+        },
+        body: JSON.stringify(data),
+      });
 
-        if  (!response.ok) {
-          throw new Error("送信に失敗しました。");
-        }
-
-        setSnackbar("お問い合わせを送信しました", "success");
-        reset();
-      } catch (error) {
-        setSnackbar("送信に失敗しました。", "error");
+      if (!response.ok) {
+        throw new Error("送信に失敗しました。");
       }
-    };
 
-    return (
-      <>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-          sx={{ maxWidth: 600, mx: "auto" }}
+      setSnackbar("お問い合わせを送信しました", "success");
+      reset();
+    } catch (error) {
+      setSnackbar("送信に失敗しました。", "error");
+    }
+  };
+
+  return (
+    <>
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ maxWidth: 600, mx: "auto" }}
+      >
+        <ContentHeader
+          breadcrumbs={[
+            { path: "/", title: "ホーム" },
+            { path: "", title: "お問い合わせ" },
+          ]}
+          title="お問い合わせ"
+        />
+        <Paper
+          elevation={3}
+          sx={{
+            padding: "32px",
+            maxWidth: 600,
+            mt: 8,
+          }}
         >
-          <ContentHeader
-            breadcrumbs={[
-              { path: "/", title: "ホーム" },
-              { path: "/", title: "お問い合わせ" },
-            ]}
-            title="お問い合わせ"
+          <TextField
+            label="名前"
+            {...register("name", { required: "名前は必須です。" })}
+            error={!!errors.name}
+            helperText={errors.name?.message}
+            fullWidth
+            margin="normal"
           />
-          <Paper
-            elevation={3}
-            sx={{
-              padding: "32px",
-              maxWidth: 600,
-              mt: 8,
-            }}
-          >
-            <TextField
-              label="名前"
-              {...register("name", { required: "名前は必須です。"})}
-              error={!!errors.name}
-              helperText={errors.name?.message}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
+          <TextField
             label="Email"
             type="email"
             {...register("email", {
@@ -116,16 +116,16 @@ const ContactForm: React.FC = () => {
           >
             送信
           </Button>
-          </Paper>
-        </Box>
-        <CustomSnackbar
-          open={openSnackbar}
-          message={snackbarMessage}
-          severity={snackbarSeverity}
-          onClose={resetSnackbar}
-        />
-      </>
-    );
+        </Paper>
+      </Box>
+      <CustomSnackbar
+        open={openSnackbar}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        onClose={resetSnackbar}
+      />
+    </>
+  );
 };
 
 export default ContactForm;

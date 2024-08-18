@@ -32,4 +32,4 @@ export function useSnackbar(): UseSnackbarReturn {
     setSnackbar,
     resetSnackbar,
   };
-}
+};
