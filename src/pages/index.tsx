@@ -77,7 +77,7 @@ const Home = ({ news, blog, projects }: { news: any; blog: any; projects: any })
       <MainVisual>
        <HalfBox>
          <Image
-            src="/main4.jpg"
+            src="/main2.jpg"
             alt="Left Image"
             layout="fill"
             quality={100}
