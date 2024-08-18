@@ -69,9 +69,9 @@ const TextOverlay = styled(Box)(({ theme }) => ({
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "70%",  // 背景ボックスの幅を画面の80%に設定
-  maxWidth: "400px",  // 最大幅を設定して、大きすぎることを防止
+  maxWidth: "300px",  // 最大幅を設定して、大きすぎることを防止
   display: "flex",
-  marginTop: "50px",
+  marginTop: "40px",
   justifyContent: "center",  // テキストとアイコンを横方向中央に配置
   alignItems: "center",  // アイコンとテキストの垂直方向を中央に揃える
   gap: "8px",
@@ -117,8 +117,8 @@ const Home = ({ news, blog, projects }: { news: any; blog: any; projects: any })
           />
         </HalfBox>
         <TextOverlay>
-          <HouseIcon sx={{ fontSize: '3rem' }} color="primary"></HouseIcon>
-          <Typography component="div" sx={{ fontSize: '2.5rem' }}>
+          <HouseIcon sx={{ fontSize: '2rem' }} color="primary"></HouseIcon>
+          <Typography component="div" sx={{ fontSize: '2rem' }}>
             ペットホテル
           </Typography>
         </TextOverlay>
