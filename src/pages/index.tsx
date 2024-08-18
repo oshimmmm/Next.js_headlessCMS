@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { client } from "@/libs/client";
 import {
   List,
   ListItem,
@@ -17,30 +16,17 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import Image from "next/image";
+import { client } from "../libs/client";
+import HouseIcon from '@mui/icons-material/House';
 
 const MainVisual = styled(Box)(({ theme }) => ({
-  position: "relative",
-  margin: "0 calc(50% - 50vw)",
-  width: "100vw",
-  height: "65vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
+  height: "300px",
   overflow: "hidden",
-  "&::before": {
-    content: '""',
-    display: "block",
-    paddingTop: "56.25%", // Maintain 16:9 aspect ratio (adjust as needed)
-  },
-  "& img": {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    objectPosition: "center",
-    [theme.breakpoints.down("md")]: {
-      objectPosition: "top",
-    },
-  },
+  position: "relative",
   [theme.breakpoints.down("md")]: {
     height: "45vh",
   },
@@ -49,19 +35,71 @@ const MainVisual = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Home = ({ news, projects }: { news: any; projects: any }) => {
+const TextOverlay = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  backgroundColor: "white",
+  borderRadius: "8px",
+  padding: "32px",  // テキストの周りに少し余白を追加
+  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+  textAlign: "center",
+  zIndex: 10,
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "80%",  // 背景ボックスの幅を画面の80%に設定
+  maxWidth: "600px",  // 最大幅を設定して、大きすぎることを防止
+  display: "flex",
+  justifyContent: "center",  // テキストとアイコンを横方向中央に配置
+  alignItems: "center",  // アイコンとテキストの垂直方向を中央に揃える
+  gap: "8px",
+  [theme.breakpoints.down("sm")]: {
+    width: "90%",  // 画面が小さくなったときの幅を調整
+  },
+}));
+
+const HalfBox = styled(Box)(({ theme }) => ({
+  position: "relative",
+  width: "50%",
+  height: "100%",
+  "& img": {                  // img 要素のスタイルを正しく指定
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    objectPosition: "center",
+  },
+}));
+
+const Home = ({ news, blog, projects }: { news: any; blog: any; projects: any }) => {
+  const showMoreLink = news.length >= 5;
+
   return (
     <div>
       <MainVisual>
-        <Image
-          src="/main-image.png"
-          alt="Main Visual"
-          layout="fill"
-          quality={100}
-          priority={true}
-        />
+       <HalfBox>
+         <Image
+            src="/main4.jpg"
+            alt="Left Image"
+            layout="fill"
+            quality={100}
+            priority={true}
+          />
+        </HalfBox>
+        <HalfBox>
+          <Image
+            src="/main.jpg"
+            alt="Right Image"
+            layout="fill"
+            quality={100}
+            priority={true}
+          />
+        </HalfBox>
+        <TextOverlay>
+          <HouseIcon sx={{ fontSize: '3rem' }} color="primary"></HouseIcon>
+          <Typography component="div" sx={{ fontSize: '3rem' }}>
+            ペットホテル
+          </Typography>
+        </TextOverlay>
       </MainVisual>
-
 
       <Container
         maxWidth="lg"
@@ -90,10 +128,92 @@ const Home = ({ news, projects }: { news: any; projects: any }) => {
                 <Typography variant="body2" color="text.secondary" mr={4}>
                     {format(new Date(item.publishedAt), "yyyy年MM月dd日 HH:mm")}
                 </Typography>
-                <Link href={`/news/${item.id}`}>{item.title}</Link>
+                <Link href={`/news/${item.id}`} passHref legacyBehavior>
+                  <a style={{ textDecoration: "none", color: "inherit" }}>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="primary"
+                    >
+                      {item.title}
+                    </Typography>
+                  </a>
+                </Link>
               </ListItem>
             ))}
           </List>
+          {showMoreLink && (
+            <Link href="/news/newslist/1" passHref legacyBehavior>
+              <a style={{ textDecoration: "none", color: "inherit" }}>
+                <Typography
+                  component="span"
+                  sx={{
+                    cursor: "pointer",
+                    color: "#2680C2",
+                    mt: 2,
+                    display: "block",
+                  }}
+                >
+                  もっと見る
+                </Typography>
+              </a>
+            </Link>
+          )}
+        </Paper>
+
+        <Paper
+          elevation={3}
+          sx={{
+            padding: "16px",
+            textAlign: "center",
+            marginTop: "20px"
+          }}
+        >
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            gutterBottom
+            sx={{ textAlign: "left", color: "inherit", ml: 4 }}
+          >
+            ブログ
+          </Typography>
+          <List>
+            {blog.map((item: any) =>(
+              <ListItem key={item.id} alignItems="flex-start">
+                <Typography variant="body2" color="text.secondary" mr={4}>
+                    {format(new Date(item.publishedAt), "yyyy年MM月dd日 HH:mm")}
+                </Typography>
+                <Link href={`/blog/${item.id}`} passHref legacyBehavior>
+                  <a style={{ textDecoration: "none", color: "inherit" }}>
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      color="primary"
+                    >
+                      {item.title}
+                    </Typography>
+                  </a>
+                </Link>
+              </ListItem>
+            ))}
+          </List>
+          {showMoreLink && (
+            <Link href="/news/newslist/1" passHref legacyBehavior>
+              <a style={{ textDecoration: "none", color: "inherit" }}>
+                <Typography
+                  component="span"
+                  sx={{
+                    cursor: "pointer",
+                    color: "#2680C2",
+                    mt: 2,
+                    display: "block",
+                  }}
+                >
+                  もっと見る
+                </Typography>
+              </a>
+            </Link>
+          )}
         </Paper>
 
         <Paper
@@ -145,13 +265,26 @@ const Home = ({ news, projects }: { news: any; projects: any }) => {
 export default Home;
 
 export const getStaticProps = async () => {
-  const data = await client.get({
-    endpoint: "news"});
+  const newsData = await client.get({
+    endpoint: "news",
+    queries: {
+      limit: 5,
+      filters: 'type[contains]更新情報'
+    },
+  });
+  const blogData = await client.get({
+    endpoint: "news",
+    queries: {
+      limit: 5,
+      filters: 'type[contains]ブログ'
+    },
+  });
   const projects = await client.get({ endpoint: "projects"});
 
   return {
     props: {
-      news: data.contents,
+      news: newsData.contents,
+      blog: blogData.contents,
       projects: projects.contents
     },
   };

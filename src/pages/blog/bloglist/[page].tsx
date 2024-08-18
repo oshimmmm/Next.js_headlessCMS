@@ -14,7 +14,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     endpoint: "news",
     queries: { 
       limit: 1,
-      filters: "type[contains]更新情報",
+      filters: "type[contains]ブログ",
     },
   });
 
@@ -33,11 +33,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const page = params?.page ? parseInt(params.page as string, 10) : 1;
-  const { news, totalCount } = await fetchNews(page);
+  const { blog, totalCount } = await fetchNews(page);
 
   return {
     props: {
-      news,
+      blog,
       totalCount,
       page,
     },
@@ -47,40 +47,40 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 const fetchNews = async (page: number) => {
   const offset = (page - 1) * newsPerPage;
 
-  const newsData = await client.get({
+  const blogData = await client.get({
     endpoint: "news",
     queries: {
       limit: newsPerPage,
       offset,
-      filters: "type[contains]更新情報",
+      filters: "type[contains]ブログ",
     },
   });
 
   return {
-    news: newsData.contents,
-    totalCount: newsData.totalCount,
+    blog: blogData.contents,
+    totalCount: blogData.totalCount,
   };
 };
 
-interface News {
+interface blog {
   id: string;
   title: string;
   publishedAt: string;
 }
 
-interface NewsListProps {
-  news: News[];
+interface blogListProps {
+  blog: blog[];
   totalCount: number;
   page: number;
 }
 
-const NewsList: React.FC<NewsListProps> = ({ news, totalCount, page }) => {
+const BlogList: React.FC<blogListProps> = ({ blog, totalCount, page }) => {
   const router = useRouter();
   const pageCount = Math.ceil(totalCount / newsPerPage);
 
   const breadcrumbs = [
     { title: "ホーム", path: "/" },
-    { title: "お知らせ一覧", path: "/news/newslist/1" },
+    { title: "ブログ一覧", path: "/blog/bloglist/1" },
   ];
 
 
@@ -91,14 +91,14 @@ const NewsList: React.FC<NewsListProps> = ({ news, totalCount, page }) => {
     >
       <Box>
         <Box sx={{ flex: 1 }}>
-          <ContentHeader breadcrumbs={breadcrumbs} title="お知らせ一覧" />
+          <ContentHeader breadcrumbs={breadcrumbs} title="ブログ一覧" />
         </Box>
         <List>
-          {news.map((item) => (
+          {blog.map((item) => (
             <ListItem key={item.id}>
               <ListItemText
                 primary={
-                  <Link href={`/news/${item.id}`} passHref legacyBehavior>
+                  <Link href={`/blog/${item.id}`} passHref legacyBehavior>
                     <a style={{ textDecoration: "none", color: "inherit"}}>
                       <Typography component="span" color="primary">
                         {item.title}
@@ -121,7 +121,7 @@ const NewsList: React.FC<NewsListProps> = ({ news, totalCount, page }) => {
           count={pageCount}
           page={page}
           onChange={(_, value) => {
-            router.push(`/news/newslist/${value}`);
+            router.push(`/blog/bloglist/${value}`);
           }}
           color="primary"
         />
@@ -131,4 +131,4 @@ const NewsList: React.FC<NewsListProps> = ({ news, totalCount, page }) => {
 
 }
 
-export default NewsList;
+export default BlogList;

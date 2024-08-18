@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-// import XIcon from "@mui/icons-material/X";
+import XIcon from "@mui/icons-material/X";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
 const Footer = () => {
@@ -17,7 +17,7 @@ const Footer = () => {
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "center", mb: 1 }}>
-        {/* <IconButton
+        <IconButton
           component="a"
           href="https://twitter.com/your_twitter_account"
           target="_blank"
@@ -25,10 +25,10 @@ const Footer = () => {
           sx={{ color: "inherit" }}
         >
           <XIcon />
-        </IconButton> */}
+        </IconButton>
         <IconButton
           component="a"
-          href="https://www.instagram.com/marumaru.house?igsh=M2FueHVjMXNqNDgw&utm_source=qr"
+          href="https://www.instagram.com/your_instagram_account"
           target="_blank"
           rel="noopener noreferrer"
           sx={{ color: "inherit" }}

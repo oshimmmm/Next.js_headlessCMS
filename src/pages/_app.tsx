@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline } from "@mui/material";
 import type { AppProps } from "next/app";
