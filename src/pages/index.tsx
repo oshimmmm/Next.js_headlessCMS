@@ -35,20 +35,43 @@ const MainVisual = styled(Box)(({ theme }) => ({
   },
 }));
 
+const ListItemCustom = styled(ListItem)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "flex-start",
+  alignItems: "center",
+  textAlign: "left",
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
+}));
+
+const ListCustom = styled(List)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  textAlign: "center",
+  [theme.breakpoints.down("sm")]: {
+    alignItems: "flex-start",
+  },
+}));
+
 const TextOverlay = styled(Box)(({ theme }) => ({
   position: "absolute",
   backgroundColor: "white",
   borderRadius: "8px",
-  padding: "32px",  // テキストの周りに少し余白を追加
+  padding: "20px",  // テキストの周りに少し余白を追加
   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
   textAlign: "center",
   zIndex: 10,
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%",  // 背景ボックスの幅を画面の80%に設定
-  maxWidth: "600px",  // 最大幅を設定して、大きすぎることを防止
+  width: "70%",  // 背景ボックスの幅を画面の80%に設定
+  maxWidth: "400px",  // 最大幅を設定して、大きすぎることを防止
   display: "flex",
+  marginTop: "50px",
   justifyContent: "center",  // テキストとアイコンを横方向中央に配置
   alignItems: "center",  // アイコンとテキストの垂直方向を中央に揃える
   gap: "8px",
@@ -95,7 +118,7 @@ const Home = ({ news, blog, projects }: { news: any; blog: any; projects: any })
         </HalfBox>
         <TextOverlay>
           <HouseIcon sx={{ fontSize: '3rem' }} color="primary"></HouseIcon>
-          <Typography component="div" sx={{ fontSize: '3rem' }}>
+          <Typography component="div" sx={{ fontSize: '2.5rem' }}>
             ペットホテル
           </Typography>
         </TextOverlay>
@@ -122,9 +145,9 @@ const Home = ({ news, blog, projects }: { news: any; blog: any; projects: any })
           >
             更新情報
           </Typography>
-          <List>
+          <ListCustom>
             {news.map((item: any) =>(
-              <ListItem key={item.id} alignItems="flex-start">
+              <ListItemCustom key={item.id} alignItems="flex-start">
                 <Typography variant="body2" color="text.secondary" mr={4}>
                     {format(new Date(item.publishedAt), "yyyy年MM月dd日 HH:mm")}
                 </Typography>
@@ -139,9 +162,9 @@ const Home = ({ news, blog, projects }: { news: any; blog: any; projects: any })
                     </Typography>
                   </a>
                 </Link>
-              </ListItem>
+              </ListItemCustom>
             ))}
-          </List>
+          </ListCustom>
           {showMoreLink && (
             <Link href="/news/newslist/1" passHref legacyBehavior>
               <a style={{ textDecoration: "none", color: "inherit" }}>
@@ -177,9 +200,9 @@ const Home = ({ news, blog, projects }: { news: any; blog: any; projects: any })
           >
             ブログ
           </Typography>
-          <List>
+          <ListCustom>
             {blog.map((item: any) =>(
-              <ListItem key={item.id} alignItems="flex-start">
+              <ListItemCustom key={item.id} alignItems="flex-start">
                 <Typography variant="body2" color="text.secondary" mr={4}>
                     {format(new Date(item.publishedAt), "yyyy年MM月dd日 HH:mm")}
                 </Typography>
@@ -194,9 +217,9 @@ const Home = ({ news, blog, projects }: { news: any; blog: any; projects: any })
                     </Typography>
                   </a>
                 </Link>
-              </ListItem>
+              </ListItemCustom>
             ))}
-          </List>
+          </ListCustom>
           {showMoreLink && (
             <Link href="/news/newslist/1" passHref legacyBehavior>
               <a style={{ textDecoration: "none", color: "inherit" }}>
