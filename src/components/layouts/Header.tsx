@@ -77,7 +77,7 @@ const Header = () => {
           </Typography>
         </Button>
       </LinkCustom>
-      <Button component="a" href="tel:080-6927-7997" color="inherit" sx={commonButtonStyles}>
+      <Button component="a" href="tel:000-0000-0000" color="inherit" sx={commonButtonStyles}>
         <PhoneIcon sx={{ fontSize: { xs: 24, sm: 28 } }} />
         <Typography color="inherit" component="span" sx={{ fontSize: { xs: 10, sm: 12 } }}>
           ご予約
