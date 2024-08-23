@@ -3,6 +3,7 @@ import { Container, Typography, Box } from "@mui/material";
 import { format } from "date-fns";
 import React from "react";
 import ContentHeader from "../../../components/common/ContentHeader";
+import Head from "next/head";
 
 export default function BlogId({ news }: { news: any }) {
   const formattedPublishedDate = format(
@@ -33,6 +34,10 @@ export default function BlogId({ news }: { news: any }) {
 
   return (
     <Container maxWidth="md">
+      <Head>
+        <title>{news.title}</title>
+        <meta name="description" content={news.content ?? ""} />
+      </Head>
       <ContentHeader breadcrumbs={breadcrumbs} title={news.title} />
       <Box
         display="flex"
