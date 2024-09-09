@@ -221,7 +221,7 @@ const Home = ({ news, blog, projects }: { news: any; blog: any; projects: any })
             ))}
           </ListCustom>
           {showMoreLink && (
-            <Link href="/news/newslist/1" passHref legacyBehavior>
+            <Link href="/blog/bloglist/1" passHref legacyBehavior>
               <a style={{ textDecoration: "none", color: "inherit" }}>
                 <Typography
                   component="span"
