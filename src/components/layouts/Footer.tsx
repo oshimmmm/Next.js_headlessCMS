@@ -37,7 +37,7 @@ const Footer = () => {
         </IconButton>
       </Box>
       <Typography variant="body2" color="text.secondary">
-        &copy; {new Date().getFullYear()} marumaru house. All rights reserved.
+        &copy; {new Date().getFullYear()} oshimmmm. All rights reserved.
       </Typography>
     </Box>
   );
