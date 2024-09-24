@@ -8,6 +8,7 @@ import ContentHeader from "../../components/common/ContentHeader";
 type FormValues = {
   name: string;
   email: string;
+  confirmEmail: string;
   body: string;
 };
 
@@ -17,6 +18,7 @@ const ContactForm: React.FC = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    watch,
   } = useForm<FormValues>();
 
   const {
@@ -51,6 +53,9 @@ const ContactForm: React.FC = () => {
       setSnackbar("送信に失敗しました。", "error");
     }
   };
+
+  // watchでemailフィールドの値を監視
+  const emailValue = watch("email");
 
   return (
     <>
@@ -94,6 +99,23 @@ const ContactForm: React.FC = () => {
             })}
             error={!!errors.email}
             helperText={errors.email?.message}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Email（確認用）"
+            type="email"
+            {...register("confirmEmail", {
+              required: "確認用メールアドレスは必須です。",
+              pattern: {
+                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                message: "メールアドレスが正しくありません。",
+              },
+              validate: (value) =>
+                value === emailValue || "メールアドレスが一致しません。",
+            })}
+            error={!!errors.confirmEmail}
+            helperText={errors.confirmEmail?.message}
             fullWidth
             margin="normal"
           />
