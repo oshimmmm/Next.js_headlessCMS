@@ -40,7 +40,7 @@ const ContactForm: React.FC = () => {
           "Content-Type": "application/json",
           "X-API-KEY": process.env.NEXT_PUBLIC_API_KEY || "",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ name: data.name, email:data.email, body:data.body }),
       });
 
       if (!response.ok) {
@@ -107,11 +107,7 @@ const ContactForm: React.FC = () => {
             type="email"
             {...register("confirmEmail", {
               required: "確認用メールアドレスは必須です。",
-              pattern: {
-                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-                message: "メールアドレスが正しくありません。",
-              },
-              validate: (value) =>
+              validate: value =>
                 value === emailValue || "メールアドレスが一致しません。",
             })}
             error={!!errors.confirmEmail}
